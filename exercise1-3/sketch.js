@@ -1,18 +1,24 @@
+let counter = 0;
 /**
  * A class representing a UI button.
  */
-class Button {
+class Button 
+{
 
-    /**
-     * Creates a new Button.
-     * @param {number} x The x coordinate of the button (CORNER mode).
-     * @param {number} y The y coordinate of the button (CORNER mode).
-     * @param {number} width The width of the button.
-     * @param {number} height The height of the button.
-     * @param {string} label The text to display on the button.
-     */
-    constructor(x, y, width, height, label) {
-        
+    x;
+    y;
+    width;
+    height;
+    label;
+
+    constructor(x, y, width, height, label) 
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.label = label;
+
     }
 
     /**
@@ -21,16 +27,37 @@ class Button {
      * the button's fill colour will be blue (0, 0, 255). Otherwise, it 
      * will be black.
      */
-    draw() {
-        
+    draw() 
+    {
+        if (this.#mouseIsOver())
+        {
+            fill(0,0,255)
+        }
+        else
+        {
+            fill(0)
+        }
+        rect(this.x,this.y,this.width,this.height);
+        fill(172.5)
+        textSize(40)
+        textAlign(CENTER,CENTER)
+        text(this.label,this.x+(this.width/2),this.y+(this.height/2))
     }
 
     /**
      * A private method that checks if the mouse is over the button. 
      * @returns {boolean} True if the mouse is over the button, false otherwise.
      */
-    #mouseIsOver() {
-        
+    #mouseIsOver() 
+    {
+        if (mouseX > (this.x + this.width) || mouseX < this.x|| mouseY > (this.y + this.height) || mouseY < this.y)
+        {
+            return(false);
+        }
+        else
+        {
+            return(true);
+        }
     }
 
     /**
@@ -38,7 +65,32 @@ class Button {
      * is currently pressed.
      * @returns {boolean} True if the button is clicked, false otherwise.
      */
-    clicked() {
-
+    clicked() 
+    {     
+        if (this.#mouseIsOver() && mouseIsPressed)
+        {
+            counter++;
+            console.log(counter);
+            return(true)
+        }
+        else
+        {
+            return(false)
+        }
     }
 }
+function setup()
+{
+    createCanvas(400,400)
+}
+let button = new Button(100,100,200,100,"button");
+function draw()
+{
+    background(172.5);
+    button.clicked()
+    button.draw();
+    fill(0)
+    textSize(20)
+    text("button has been pressed " + counter + " times!", 200,300)
+}
+
